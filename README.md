@@ -11,6 +11,7 @@
 ```sh
 $ npm install
 $ npm start
+$ npm run dev
 ```
 
 * [http://localhost:3000/](http://localhost:3000/) — demo page that writes a record to the MongoDb database
