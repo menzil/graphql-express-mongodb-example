@@ -42,6 +42,23 @@ app.get('/test', async (req, res, next) => {
   }
 });
 
+app.get('/user', async (req, res, next) => {
+  try {
+    const db = req.app.locals.db;
+    await db.collection('user').insertOne({
+      createdAt: new Date(),
+      ip: req.ip,
+      name: req.query.name,
+			isActive: false
+    });
+    res.send('<h1>Hello, '+req.query.name+'!</h1>');
+  } catch (err) {
+    next(err);
+  }
+});
+
+
+
 // Serve an empty HTML page for all requests (SPA)
 app.get('*', (req, res) => {
   const markup = ReactDOM.renderToStaticMarkup(<Html />);
@@ -49,7 +66,7 @@ app.get('*', (req, res) => {
 });
 
 // Create a MonboDB connection pool and start the Node.js app
-MongoClient.connect('mongodb://localhost:27017/demo', { promiseLibrary: Promise })
+MongoClient.connect('mongodb://localhost:27017/blog', { promiseLibrary: Promise })
   .catch(err => console.error(err.stack))
   .then(db => {
     app.locals.db = db; // See http://expressjs.com/en/4x/api.html#app.locals
